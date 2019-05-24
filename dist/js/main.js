@@ -1,4 +1,6 @@
 "use strict";
 
-console.log("Hello World from main.js! \nChange this message, and make sure it changes in the browser \nto verify that you're working in the right files.");
+console.log("Hello Chello to do list."); // we don't need to refer to this later so assing it to a variable is optional 
+
+var todo = new TodoList('.todo-list');
 //# sourceMappingURL=main.js.map

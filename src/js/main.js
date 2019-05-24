@@ -1,3 +1,5 @@
-console.log(`Hello World from main.js! 
-Change this message, and make sure it changes in the browser 
-to verify that you're working in the right files.`)
+console.log(`Hello Chello to do list.`)
+
+
+// we don't need to refer to this later so assing it to a variable is optional 
+const todo = new TodoList('.todo-list');
