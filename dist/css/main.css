@@ -73,13 +73,19 @@ table {
 }
 
 body {
-	background: #0d788b;
+	background: url("/dist/img/travel-720.jpg");
 	font-family: Arial, Helvetica, sans-serif;
+}
+
+@media (min-width: 1000px) {
+	body {
+		background-size: cover;
+	}
 }
 
 .todo-list {
 	max-width: 900px;
-	margin: 0 auto;
+	margin: 5% auto;
 	padding: 3%;
 	background-color: lightblue;
 	border: 3px dashed darkcyan;
@@ -88,6 +94,14 @@ body {
 .todo-list h1 {
 	font-size: 2rem;
 	margin-bottom: 1rem;
+	font-family: "Libre Barcode 128 Text", cursive;
+	font-size: 3.5rem;
+}
+
+.todo-list .input-box {
+	margin: 10px 0;
+	padding: 10px;
+	width: 40%;
 }
 
 .todo-list footer {
@@ -100,23 +114,43 @@ body {
 	        justify-content: space-between;
 }
 
+.todo-list footer .status {
+	font-family: "Libre Barcode 128 Text", cursive;
+	font-size: 2.8rem;
+}
+
+.todo-list footer .input-check {
+	width: 20px;
+	height: 20px;
+}
+
 .undone {
 	max-width: 900px;
-	margin: 0 auto;
+	margin: 5px auto;
 	padding: 3%;
 	background-color: lightblue;
 	border: 3px dashed darkcyan;
+	font-family: "Josefin Sans", sans-serif;
+	font-size: 1.8rem;
 }
 
 .undone button {
 	float: right;
+	width: 100px;
+	height: 35px;
+	font-size: 1.2rem;
+	background-color: #19254a;
+	color: lightblue;
 }
 
 .done {
 	color: lightblue;
+	font-family: "Josefin Sans", sans-serif;
+	font-size: 1.8rem;
+	background-color: #19254a;
 	text-decoration: line-through;
 	max-width: 900px;
-	margin: 0 auto;
+	margin: 5px auto;
 	padding: 3%;
 	border: 3px dashed darkgrey;
 	display: none;
@@ -124,9 +158,13 @@ body {
 
 .done button {
 	float: right;
+	width: 100px;
+	height: 35px;
+	font-size: 1.2rem;
+	background-color: lightblue;
 }
 
-.show {
+.show-completed .done {
 	display: block;
 }
 

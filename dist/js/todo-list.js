@@ -14,7 +14,14 @@ var TodoList = function TodoList() {
     //loop over our list of items
     // if checbox/toggle true, show all completed items
     //update the DOM with any changes for the list 
-    console.log("tasks are: ", _this.taskList);
+    var doneCount = document.querySelector('.done-cnt');
+
+    var completedItems = _this.taskList.filter(function (value) {
+      console.log("this is value: ", value);
+      return value.done;
+    });
+
+    doneCount.innerHTML = completedItems.length;
   });
 
   console.log('TodoList()'); //sequence of what needs to happen:
@@ -24,6 +31,7 @@ var TodoList = function TodoList() {
   this.taskList = [];
   var newTask = document.querySelector('[name="new-todo"]');
   var taskCount = document.querySelector('.task-cnt');
+  var itemContainer = document.querySelector('.todo-items');
   var checkbox = document.querySelector('[type="checkbox"]');
   var hidingTasks = true; //2. hook up listeners to the DOM elements
   //2a. keyup for todo field
@@ -47,17 +55,17 @@ var TodoList = function TodoList() {
   });
   checkbox.addEventListener('click', function () {
     console.log("checkbox items showing: ", hidingTasks);
-    var doneTasks = document.querySelector('.done');
     hidingTasks = !hidingTasks;
 
     if (!hidingTasks) {
-      doneTasks.classList.add('show');
-    } else if (hidingTasks) {
-      doneTasks.classList.remove('show');
+      itemContainer.classList.add('show-completed');
+    } else {
+      itemContainer.classList.remove('show-completed');
     }
 
     _this.render();
   });
+  window.addEventListener('item-updated', this.render);
 }; //TodoItem represens and individual todo item in our list 
 
 
@@ -69,9 +77,29 @@ function TodoItem(newTaskValue) {
 
   _defineProperty(this, "render", function () {
     console.log(_this2.newTaskValue + ' rendered', _this2.done); //updates the DOM with any changes for the list 
-    //modify what the DOM element recognizes as "done/undone"
+
+    if (_this2.done) {
+      //if  done 
+      _this2.taskBox.classList.remove('undone'); // remove this class
+
+
+      _this2.taskBox.classList.add('done'); // add this class
+
+
+      _this2.bttn.innerHTML = "Undo"; //change button to say
+    } else {
+      _this2.taskBox.classList.remove('done'); //remove this class
+
+
+      _this2.taskBox.classList.add('undone'); //add this class
+
+
+      _this2.bttn.innerHTML = "Done"; //change button to say
+      // this.completed.push(newTaskValue); // add to "completed" array 
+    } //modify what the DOM element recognizes as "done/undone"
     //styling: a completed item should have strikethrough
     // the button label changed from done to undone 
+
   });
 
   this.newTaskValue = newTaskValue;
@@ -79,42 +107,27 @@ function TodoItem(newTaskValue) {
   //1. need to create a div for the item 
   //      which includes a done button to mark it complete "done/undone"
 
-  var taskBox = document.createElement('div');
-  var bttn = document.createElement('button');
-  this.completed = [];
-  var doneCount = document.querySelector('.done-cnt'); //4. setup a variabe to keep track of if this item is complete or not (boolean)
+  this.taskBox = document.createElement('div');
+  this.bttn = document.createElement('button');
+  var itemContainer = document.querySelector('.todo-items'); // this.completed = [];
+  //4. setup a variabe to keep track of if this item is complete or not (boolean)
 
   this.done = false;
-  bttn.innerHTML = "Done";
-  taskBox.innerHTML = newTaskValue; //add a class for styling
+  this.bttn.innerHTML = "Done";
+  this.taskBox.innerHTML = newTaskValue; //add a class for styling
 
-  taskBox.classList.add('undone'); //2. add it to the DOM 
+  this.taskBox.classList.add('undone'); //2. add it to the DOM 
 
-  document.body.appendChild(taskBox);
-  taskBox.appendChild(bttn); //3. add an event listener to the "done/undone" button
+  itemContainer.appendChild(this.taskBox);
+  this.taskBox.appendChild(this.bttn); //3. add an event listener to the "done/undone" button
 
-  bttn.addEventListener('click', function () {
+  this.bttn.addEventListener('click', function () {
     // this toggles true or false. if true, turn false and vice versa 
-    _this2.done = !_this2.done;
-
-    if (!_this2.done) {
-      taskBox.classList.remove('undone');
-      taskBox.classList.add('done');
-      bttn.innerHTML = "Undo";
-
-      _this2.completed.push(newTaskValue);
-
-      console.log("items done: ", _this2.completed);
-    } else {
-      taskBox.classList.remove('done');
-      taskBox.classList.add('undone');
-      bttn.innerHTML = "Done";
-      console.log("items undone: ", _this2.completed);
-    }
-
-    doneCount.innerHTML = _this2.completed.length; //update changes with every click 
+    _this2.done = !_this2.done; //update changes with every click 
 
     _this2.render();
+
+    window.dispatchEvent(new Event('item-updated'));
   });
 }; //for styling, assign a class to "done/undone" status and then have styling waiting on class mark.
 //# sourceMappingURL=todo-list.js.map
